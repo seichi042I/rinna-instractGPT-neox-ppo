@@ -61,13 +61,13 @@ def generate(instruction,input=None,maxTokens=256):
         input_ids=input_ids, 
         max_new_tokens=maxTokens, 
         do_sample=True,
-        temperature=0.7, 
+        temperature=0.01, 
         top_p=0.75, 
         top_k=40,         
         no_repeat_ngram_size=2,
     )
     outputs = outputs[0].tolist()
-    print(tokenizer.decode(outputs).replace('<NL>','\n'))
+    # print(tokenizer.decode(outputs).replace('<NL>','\n'))
 
     # EOSトークンにヒットしたらデコード完了
     if tokenizer.eos_token_id in outputs:
@@ -79,7 +79,7 @@ def generate(instruction,input=None,maxTokens=256):
         sentinelLoc = decoded.find(sentinel)
         if sentinelLoc >= 0:
             result = decoded[sentinelLoc+len(sentinel):]
-            # print(result.replace("<NL>", "\n"))  # <NL>→改行
+            print(result.replace("<NL>", "\n"))  # <NL>→改行
         else:
             print('Warning: Expected prompt template to be emitted.  Ignoring output.')
     else:
